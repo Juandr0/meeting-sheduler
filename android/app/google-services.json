@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "747290558958",
+    "project_id": "meeting-scheduler-7902f",
+    "storage_bucket": "meeting-scheduler-7902f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:747290558958:android:739d1753b1b44fa49cceff",
+        "android_client_info": {
+          "package_name": "com.example.meeting_scheduler"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCapVhyXbrcf07B4QR0FBo7h4N5wPGRNQg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
