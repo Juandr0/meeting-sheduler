@@ -1,5 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meeting_scheduler/features/booking/data/datasources/remote/booking_remote_datasource_impl.dart';
+import 'package:meeting_scheduler/features/booking/data/repositories/booking_repository_impl.dart';
+import 'package:meeting_scheduler/features/booking/domain/usecases/create_booking_usecase.dart';
+import 'package:meeting_scheduler/features/booking/domain/usecases/delete_booking_usecase.dart';
+import 'package:meeting_scheduler/features/booking/domain/usecases/get_bookings_usecase.dart';
+import 'package:meeting_scheduler/features/booking/presentation/bloc/booking_bloc.dart';
+import 'package:meeting_scheduler/features/booking/presentation/screens/booking_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,50 +20,30 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
+    // Skapa instanser av datalager och usecases
+    final remoteDataSource = BookingRemoteDataSourceImpl();
+    final repository = BookingRepositoryImpl(remoteDataSource);
+    final getBookingsUseCase = GetBookingsUseCase(repository);
+    final createBookingUseCase = CreateBookingUseCase(repository);
+    final deleteBookingUseCase = DeleteBookingUseCase(repository);
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'fb',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BookingBloc>(
+          create: (_) => BookingBloc(
+            getBookings: getBookingsUseCase,
+            createBooking: createBookingUseCase,
+            deleteBooking: deleteBookingUseCase,
+          ),
         ),
+      ],
+      child: MaterialApp(
+        title: 'Mötesrumsbokare',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: const BookingScreen(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

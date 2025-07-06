@@ -5,7 +5,7 @@ class GetBookingsUseCase {
   final BookingRepository _repository;
   GetBookingsUseCase(this._repository);
 
-  Future<List<Booking>>? call() {
+  Future<List<Booking>> call() {
     return _repository.getBookings();
   }
 }

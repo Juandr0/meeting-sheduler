@@ -3,7 +3,7 @@ import 'package:meeting_scheduler/features/booking/domain/entities/booking.dart'
 
 class BookingModel extends Booking {
   BookingModel({
-    String? bookingId,
+    super.bookingId,
     required super.userId,
     required super.roomId,
     required super.start,
@@ -12,7 +12,7 @@ class BookingModel extends Booking {
 
   factory BookingModel.fromJson(Map<String, dynamic> json) {
     return BookingModel(
-      bookingId: json['bookingId'],
+      bookingId: json['bookingId'] as String?,
       userId: json['id'],
       roomId: json['roomId'],
       start: (json['start'] is Timestamp)
