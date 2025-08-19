@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,6 +13,15 @@ import 'package:meeting_scheduler/features/booking/presentation/screens/booking_
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
+  //TODO: Används för att säkra api nyckel som var publik - tas bort när auth är implementerat
+
+  try {
+    await FirebaseAuth.instance.signInAnonymously();
+  } catch (e) {
+    print('Failed to sign in anonymously: $e');
+  }
+
   runApp(const MyApp());
 }
 
